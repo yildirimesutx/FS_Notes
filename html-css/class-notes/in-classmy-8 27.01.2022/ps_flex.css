@@ -1,0 +1,145 @@
+*{
+    margin:0;
+    padding: 0;
+}
+
+body {
+    background-color: rgba(241, 248, 198, 0.719);
+    color: black;
+    font-size: 25px;
+}
+
+.flex-container{
+    display: flex;
+    /* display: inline-flex; */
+   background-color: blueviolet;
+   height: 300px;
+
+
+  /* FLEX CONTAİNER
+
+   /* 1. flex-direction = [flex-direction: row | row-reverse | column | column-reverse; ] */
+
+
+   /* flex-direction: row;   default değer */
+   /* flex-direction: row-reverse; rowları ters taraftan yanyana sıralar */
+   /* flex-direction: column; divleri alt alta sıralar */
+   /* flex-direction: column-reverse; divleri alt alta tersten sıralar */
+
+
+   /* 2. flex-wrap: nowrap | wrap | wrap-reverse; */
+
+   /* flex-wrap: nowrap; default değer */
+   /* flex-wrap: wrap; divleri sayfa küçüldükçe aşağıya doğru kaydırıyor */
+  
+   /* flex-wrap: wrap-reverse; divleri olduğu konumun en tersine pozisyon aldırıyor ve sayfa küçüldükçe tersten yukarıya doğru sıralıyor*/
+
+    /* 3. flex-flow : flex-flow: column nowrap | column wrap | column wrap-reverse | row nowrap | row wrap | row wrap-reverse; direction ve wrap in birleşimi */
+
+    /* flex-flow: column nowrap; */
+    /* flex-flow: row wrap-reverse; */
+    /* flex-flow: row wrap; */
+    /* flex-flow: column wrap; */
+    /* flex-flow: column wrap-reverse; */
+
+
+    /* 4.justify-content : flex-start | flex-end | center | space-between | space-around | space-evenly */
+
+    /* justify-content: flex-start; default */
+    /* justify-content: flex-end; */
+    /* justify-content: space-between; her iki yana yaslıyor */
+    /* justify-content: space-around; her iki yandan boşluk bırakarak yaslıyı*/
+
+    /* 5.align-items: stretch | flex-start | flex-end | center | baseline |; */
+
+    /* align-items: stretch ; default */
+    /* align-items: flex-start; */
+    /* align-items: center; */
+    /* align-items: flex-end; */
+    /* align-items: baseline; */
+
+
+    /* 6.   align-content: flex-start | flex-end | center | space-between | space-around | stretch; */
+
+    /* align-content: flex-end; */
+    /* align-content: flex-end */
+    /* align-content: center; */
+    /* align-content: space-around; */
+
+}
+
+
+.flex-items{
+    border: 1px solid greenyellow;
+    background-color: hotpink;
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    
+}
+
+ /* FLEX ITEMS   */
+
+     /* order: 0 | default | 1; */
+
+#item2{
+  /* order: 1; /* 0 ya da 1 alır 1 sona atılır sıranın sonuna taşır*/ 
+  /* flex-grow:2; container içinde kalan boşluk kadar istenilen divi o boşlukla doldurur */
+  flex-shrink: 5;
+  /* flex-basis: 220px; */
+
+
+}
+
+
+
+
+
+
+
+
+
+/* 
+#item1, 
+#item3,
+#item5{
+    height: 70px;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* FLEX CONTAİNER
+
+1. flex-direction = [flex-direction: row | row-reverse | column | column-reverse; ]
+
+
+flex-wrap
+flex-flow
+justify-content
+align-items
+align-content
+     */
+
+
+   
+/* FLEX ITEMS         
+
+order
+flex-grow
+flex-shrink
+flex-basis
+flex
+align-self
+   */

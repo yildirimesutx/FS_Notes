@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Elements</title>
+     <style>
+      #userInfo{
+          background-color:rgb(35, 35, 216);
+      }
+
+      #genderInfo{
+          background-color: #734a8e;
+      }
+
+      #favourite{
+          /* border-width: 5 px;
+          border-right-width: 5 px;
+          border-style: solid;
+          border-color: cadetblue; */
+
+          border:5px groove darkcyan;
+          border-radius: 20px;
+      }
+
+      input{
+          background-color: rgba(39, 139, 0, 0.39);
+      }
+
+      #birthtDate{
+          border-top: 5px; solid;
+      }
+
+
+     </style>
+
+</head>
+<body>
+    <form action="result.html">
+        <h1>Sizi Tanıyalım</h1>
+
+        <!-- input text password -->
+
+        <div id="userInfo">
+            <label for="ad">AD:</label>
+            <input type="text" name="username" id="ad"   placeholder="Adınızı yazınız">
+            <br>
+            <br>
+
+            <label for="soyad">SOYAD:</label>
+            <input type="text" name="username" id="soyad"   placeholder="Soyadınızı giriniz...">
+            <br>
+            <br>
+            <label for="şifre">ŞİFRE:</label>
+            <input type="password" name="password" id="şifre"   placeholder="Şifre Giriniz">
+        </div>
+        <hr>
+
+        <!-- RADIO BUTTON -->
+         <div id="genderInfo">
+             <label for="">Cinsiyet:</label>
+             <input type="radio" name="cinsiyet" id="gender1">
+             <label for="gender1">Erkek</label>
+
+             <input type="radio" name="cinsiyet" id="gender2">
+             <label for="gender2">Kadın</label>
+         </div>
+        
+         <hr>
+
+         <!-- CHECKBOX -->
+       <h4>En Sevdiğiniz Hayvanlar:</h4>
+       <div id="favourite">
+       <input type="checkbox" name="animal" id="panda" value="panda">
+       <label for="panda">Panda</label>
+        <br>
+       <input type="checkbox" name="animal" id="kedi">
+       <label for="kedi">Kedi</label>
+       <br>
+       <input type="checkbox" name="animal" id="kuzu">
+       <label for="kuzu">Kuzu</label>
+    </div>
+    <br>
+    <hr>
+    <div id="birthtDate">
+      <label for="yas">YAŞ</label> 
+      <input type="number" name="age" id="yas" min="7" max="35">
+    </div>
+    <br>
+    <div>
+        <label for="ara">Kitap Ara:</label>
+        <input type="search" name="search" id="ara" placeholder="Aranacak kelimeyi girin">
+    </div>
+
+    <br>
+
+    <div>
+        <label for="renk">Svediğiniz Renk:</label>
+        <input type="color" name="" id="renk">
+    </div>
+
+    <br>
+      
+    <div>
+    <label for="eposta">Email:</label>
+    <input type="email" name="email" id="eposta" placeholder="example@example.com">
+    </div>
+  <br>
+    <div>
+        <label for="dosya">Profil fotoğrafı:</label>
+        <input type="file" name="file" id="dosya" multiple>
+    </div>
+
+    <br>
+
+    <div>
+        <label for="tel">Telefon Numaranız:</label>
+        <input type="tel" name="phone" id="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}"
+        placeholder="xxx-xxx-xx-xx">
+      
+    </div>
+     <br>
+    <div>
+        <label for="">Hangi Tatlıyı seversiniz</label>
+        <select name="" id="">
+          <option value="">Sütlaç</option>
+          <option value="">Samsa</option>
+          
+        </select>
+
+    </div>
+
+    <br>
+
+    <label for="dogum">Doğum Tarihi Seçin</label>
+    <input type="date" name="date" id="dogum" min="2018-12-31" max="2019-01-31">
+     
+    <br>
+    <br>
+
+    <input type="reset" value="reset">
+
+    <input type="submit" value="giriş">
+
+
+
+
+
+
+
+
+    </form>
+</body>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</html>

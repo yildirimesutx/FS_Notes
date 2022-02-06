@@ -95,9 +95,23 @@ h1{
      }
      .navbar{
          flex-direction: column;
+         background-color: aqua;
+         height: 130px;
+         justify-items: center;
+       
      }
      .navbar a {
          display: block;
-         border: 0.5 solid blue;
+         border-bottom:0.5px solid rgb(133, 133, 229);
+         color: black;
+         width: 563px;
+         margin : 5px;
+         padding: 0px;
+         text-align: center;
+
      }
+
+     .text{
+        border :  18px solid red;
+       background-color: blueviolet;
  }

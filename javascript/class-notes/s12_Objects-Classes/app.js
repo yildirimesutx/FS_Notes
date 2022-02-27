@@ -145,19 +145,100 @@
 
 // myFunc();
 
-let anObject = {
-    firstName: 'John',
-    age:30,
-    isMarried:false,
-    introduce:()=>{
-        return `${this.firstName} is ${this.age} years old.`;
-    },
+// let anObject = {
+//     firstName: 'John',
+//     age:30,
+//     isMarried:false,
+//     introduce:()=>{
+//         return `${this.firstName} is ${this.age} years old.`;
+//     },
     
-    introduce2:function () {
-        return `${this.firstName} is ${this.age} years old.`;
-    },
+//     introduce2:function () {
+//         return `${this.firstName} is ${this.age} years old.`;
+//     },
     
+// }
+
+// console.log(anObject.introduce());
+// console.log(anObject.introduce2());
+
+
+// ! CLASS STRUCTURE
+
+// class Pet {
+//     constructor(name, age){
+//         this.name = name;
+//         this.age;
+//     }
+
+//     walk() {
+//         console.log('Im walking');
+//     }
+//     speak() {
+//         return 'I like humans';
+//     }
+// }
+
+
+// class Cat extends Pet {
+//     #weight = 55; //gizli tanımlama
+//     constructor(name, age, color) {
+//         super(name, age) ;
+//         this.color= color;
+//     }
+
+//     speak() {
+//         let prevMsg = super.speak();
+//         prevMsg +=' and I like to meow'
+//         // return prevMsg;
+//         return this.#weight; //class içinde gizli özelliği veriyor
+//     }
+
+// }
+
+// const muezza = new Cat('Müezza', 2, 'grey')
+// console.log(muezza);
+// muezza.walk();
+// console.log(muezza.speak());
+
+// console.log(muezza.weight); // burada verilen ifadesyi tanımsı zyapıyor
+
+// console.dir(Pet)
+// const myPet = new Pet('Ruby', 3)
+// myPet.walk()
+// console.log(myPet); 
+
+//  ! prototypes
+
+function Pet(name, age){
+    this.name = name;
+    this.age= age;
+}  
+Pet.prototype.walk = function (){
+        console.log('Im walking');
 }
 
-console.log(anObject.introduce());
-console.log(anObject.introduce2());
+Pet.prototype.speak= function() {
+    return 'I like humans';
+}
+
+const myPet2 = new Pet('Karabas', 4);
+
+console.log(myPet2)
+
+
+function Cat(name, age, color) {
+    this.name =name;
+    this.age =age;
+    this.color = color;
+}
+
+Cat.prototype=Object.create(Pet.prototype)
+const pisi = new Cat('Pisi', 1, 'yellow')
+console.log(pisi)
+pisi.walk();
+
+// const arr = [1,2,3];
+
+// console.log(arr.__proto__)
+

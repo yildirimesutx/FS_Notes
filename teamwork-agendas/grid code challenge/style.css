@@ -1,0 +1,59 @@
+*{
+    margin: 0;
+    /* box-sizing: border-box; */
+}
+
+.container{
+width: 1000px;
+height: auto;
+display: grid;
+gap: 20px;
+grid-template-columns: repeat(4, 1fr);
+/* grid-template-rows: repeat(5, 1fr); */
+margin: 50px auto;
+}
+
+
+
+.container > div {
+    border: 1px solid;
+    background-color: royalblue;
+    color: white;
+    padding: 20px;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+
+.box{
+    height: 220px;
+}
+
+/* .box:hover{
+    background-image: url(https://picsum.photos/200/300);
+} */
+
+.header {
+    grid-column: 1/5;
+    height: 100px;
+}
+.main {
+    grid-column: 1/4;
+    height:400px ;
+    
+}
+
+/* .main:hover{
+    background-image: url(https://picsum.photos/seed/picsum/200/300);
+} */
+
+.sidebar{
+    grid-row: 2/4;
+    grid-column : 4/4;
+
+    /* grid-area :2/4/4/4 */
+}
+
+.footer{
+    height: 100px;
+    grid-column : 1/5;
+}

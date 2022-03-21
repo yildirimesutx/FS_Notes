@@ -8,6 +8,7 @@
 
 // my-app şeklinde eklersek proje dosyası oluşturuyor, kendimizde dosya oluşturabiliriz. 
 //* npx create-react-app . şeklinde yazarsak istenilen dosya içinde react dosyaları gelir
+// kurulu bir react projesini clone yapıldığında içinde npm install komutu ile node dosyası yüklenir
 
 
 //! YARN ile kurulum

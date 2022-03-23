@@ -38,5 +38,39 @@
 // index.js dosyasının child olarak app.js dosyamız oluyor. app nin içindeki componenet i export ediyor ve index.js tarafından import ediliyor.
 
 // app.js altında kullanılacak js dosyaları belirleniyor. bu dosyaları app.js içinde  <Header/> <Msg/> şeklinde companet içinnde yazıyoruz.
+
+// Github Pages
+
+// packjson dosyası içerisine 
+
+// "homepage": "https://yildirimesutx.github.io/{proje klasörü ismi}",
+   
+      
+// "scripts": dosyası içine ve sona ekliyoruz
+   
+//  "predeploy": "npm run build",
+//  "deploy": "gh-pages -d build"  
+
+//    npm install gh-pages
+
+// npm run build
+// npm run deploy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       
       

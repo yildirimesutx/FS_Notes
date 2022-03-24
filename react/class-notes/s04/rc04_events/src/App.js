@@ -3,6 +3,7 @@ import AddEvents from './components/addEvents/AddEvents';
 import MouseEvents from './components/mouseEvents/MouseEvents';
 import Form from './components/form/Form';
 import KeyboardEvents from './components/keyboardEvents/KeyboardEvents';
+import EventBind from './components/eventBinding/EventBind';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       {/* <AddEvents/> */}
       {/* <MouseEvents/> */}
       {/* <Form/> */}
-      <KeyboardEvents/>
+      {/* <KeyboardEvents/> */}
+      <EventBind/>
     </div>
   );
 }

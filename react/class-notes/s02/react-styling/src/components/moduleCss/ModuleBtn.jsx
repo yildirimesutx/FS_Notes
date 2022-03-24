@@ -4,7 +4,7 @@ const ModuleBtn = ({btnStyle, btnName}) => {
   return (
     <div className={styles.main}>
       <button className={styles[btnStyle]}>
-{btnName}
+      {btnName}
       </button>
     </div>
   )

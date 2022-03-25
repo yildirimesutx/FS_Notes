@@ -4,6 +4,8 @@ import MouseEvents from './components/mouseEvents/MouseEvents';
 import Form from './components/form/Form';
 import KeyboardEvents from './components/keyboardEvents/KeyboardEvents';
 import EventBind from './components/eventBinding/EventBind';
+import Postclass from './components/mouseEvents/Postclass';
+import PostClass from './components/form/PostClass';
 
 function App() {
   return (
@@ -13,7 +15,9 @@ function App() {
       {/* <MouseEvents/> */}
       {/* <Form/> */}
       {/* <KeyboardEvents/> */}
-      <EventBind/>
+      {/* <EventBind/> */}
+      {/* <Postclass/> */}
+      <PostClass/>
     </div>
   );
 }

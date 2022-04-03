@@ -1,0 +1,14 @@
+.navbar {
+    height: 50px;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: space-around;
+    padding: 25px;
+    border-bottom: 1px solid grey;
+    background-color: aliceblue;
+  }
+  .activeStyle {
+    color: rgb(162, 17, 17);
+    text-decoration: none;
+    border-top: 2px solid black;
+  }

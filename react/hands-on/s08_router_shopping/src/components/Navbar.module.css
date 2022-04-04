@@ -5,10 +5,17 @@
     justify-content: space-around;
     padding: 25px;
     border-bottom: 1px solid grey;
-    background-color: aliceblue;
+    background-color: #F77D1F;
+    color: white;
+  }
+
+  .navbar a{
+    color: white;
+    text-decoration: none;
+
   }
   .activeStyle {
-    color: rgb(162, 17, 17);
+    color: white;
     text-decoration: none;
     border-top: 2px solid black;
   }

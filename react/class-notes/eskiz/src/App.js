@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import axios from "axios";
-import { useEffect } from 'react';
+
 
 function App() {
 
@@ -21,16 +21,61 @@ function App() {
 //      }
 //     ,[])
 
-useEffect(async ()=>{
 
-  const rest = await axios.get("https://restcountries.com/v3.1/name/Turkey")
 
-console.log( "naber", rest)
 
-},[])
+let APP_KEY = "864a82802664a50366c68f2ca424dad1"
+
+let APP_ID =  "fa255c54"
+
+let query = "pizza"
+
+let meal = "Dinner"
+
+let url = `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}&mealType=${meal}`
+
+
+ const getApi = async () =>{
+    
+const response = await axios(url)
+console.log(response)
+ }
+
+
+getApi()
+
+
+
+
+
+
+
+
+
+
+// const rest = axios.get(url)
+
+// console.log( "naber", rest)
+
+
+
+
+
+
+
+
+
+
+// useEffect(async ()=>{
+
+//   const rest = await axios.get(url)
+
+// console.log( "naber", rest)
+
+// },[])
        
 
-
+// https://api.edamam.com/search?q=${query}&app_id=${fa80e48b}&app_key=${58d9e40af297f0ee2f74a36b5d1a9e4b}&mealType=${pizza}
 
 
   return (

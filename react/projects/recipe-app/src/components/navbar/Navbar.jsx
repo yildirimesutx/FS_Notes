@@ -17,7 +17,7 @@ const Navbar = () => {
       </Hamburger>
 
       <Menu osman={isOpen}>
-        <MenuLink onClick={() => setIsOpen(!isOpen)} to="/about">
+        <MenuLink onClick={() => setIsOpen(!isOpen)} onMouseUp={()=>sessionStorage.clear()} to="/about">
           About
         </MenuLink>
         <MenuLink to="/github">Github</MenuLink>

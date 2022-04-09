@@ -1,25 +1,24 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { DetailContainer, DetailPart, HeaderContainer, ImgContainer, IngredContainer, OtherPart } from './DetailsStyles';
-import dietSvg from "../../assets/diet.svg"
-
+import dietSvg from "../../assets/diet.svg";
 const Details = () => {
   const location = useLocation();
+  // geçerli URL'yi temsil eden konum nesnesini döndürür
+  const recipe = location.state.recipe1;
+  // navigate("/details", { state: { recipe } }); recipecard da bütün data json formatında state e gömülmüştü
 
-  const recipe = location.state.recipe1
-
-  // console.log(recipe)
+  console.log(recipe);
 
   return (
-    
-<DetailContainer>
-  <HeaderContainer>
-    <h1>{recipe.label}</h1>
-    <img src={dietSvg} alt="" />
-  </HeaderContainer>
-<DetailPart>
-  <OtherPart>
-  <>Nutrients</>
+    <DetailContainer>
+      <HeaderContainer>
+        <h1> {recipe.label}</h1>
+        <img src={dietSvg} alt="" />
+      </HeaderContainer>
+      <DetailPart>
+        <OtherPart>
+          <>Nutrients</>
           <p>
             {recipe.totalNutrients.CA.label} :
             {Math.round(recipe.totalNutrients.CA.quantity)}
@@ -47,32 +46,24 @@ const Details = () => {
               {item.label} : {Math.round(item.total)}
             </p>
           ))}
+        </OtherPart>
+        <ImgContainer>
+          <img src={recipe.image} alt={recipe.label} />
+        </ImgContainer>
 
-  </OtherPart>
-<ImgContainer>
- <img src={recipe.image} alt="" />
-</ImgContainer>
-
-
-<IngredContainer>
- {recipe.ingredientLines.map((malzeme, index)=>(
-   <div key={index}>
-   <p>{index+1}- {malzeme}</p>
-   </div>
- ))}
-</IngredContainer>
-
-
-</DetailPart>
-
-
-</DetailContainer>
-
-
-
-
-
-  )
-}
+        <IngredContainer>
+          {recipe.ingredientLines.map((malzeme, index) => (
+            <div key={index}>
+              <p>
+                {index + 1} * {malzeme}
+                {/* ingredientLines içinde bir sürü obje var tek tek yazdır, başına no ekle 1*{malzeme} gibi */}
+              </p>
+            </div>
+          ))}
+        </IngredContainer>
+      </DetailPart>
+    </DetailContainer>
+  );
+};
 
 export default Details

@@ -1,12 +1,16 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearTodoList } from "../../redux/actions/todoActions";
 import TodoItem from "./TodoItem";
 
 const TodoList = () => {
-
+  const { list } = useSelector((state) => state.todoReducer);
+  const dispatch = useDispatch();
 
   const handleClearList = () => {
-  
+    dispatch(clearTodoList());
   };
+
   return (
     <div>
       <div>

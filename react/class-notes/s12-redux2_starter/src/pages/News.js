@@ -7,32 +7,31 @@ import Typography from "@mui/material/Typography";
 import { CardMedia } from "@mui/material";
 import axios from "axios";
 import { useEffect } from "react";
-import { clearLoading, setLoading } from "../redux/actions/appActions";
-import {useDispatch} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading, clearLoading } from "../redux/actions/appActions";
 import { setNewsList } from "../redux/actions/newsActions";
 
 const News = () => {
+  const dispatch = useDispatch();
+  const { newsList } = useSelector((state) => state.news);
+  const { loading } = useSelector((state) => state.app);
 
-  const dispatch = useDispatch()
   const url =
     "https://newsapi.org/v2/everything?" +
     "q=Apple&" +
     "from=2022-04-18&" +
     "sortBy=popularity&" +
-    "apiKey=061b5f2659af4d23b647088a7acd54f4";
+    "apiKey=1a1a999e0d7240a6bd2dead87bcca78e";
 
   const getNews = async () => {
-   try {
-      dispatch(setLoading())
-      const {data} = await axios.get(url);
-
-      dispatch(setNewsList(data.articles))
-      console.log(data.articles);
-
-   } catch (error) {
-     console.log(error)
-    } finally{
-      dispatch(clearLoading())
+    try {
+      dispatch(setLoading());
+      const { data } = await axios.get(url);
+      dispatch(setNewsList(data.articles));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(clearLoading());
     }
   };
 
@@ -48,7 +47,7 @@ const News = () => {
       justifyContent="space-evenly"
       flexWrap="wrap"
     >
-      {[1, 2, 3, 4].map((item, index) => (
+      {newsList.map((item, index) => (
         <Card sx={{ maxWidth: 345, m: 5, maxHeight: 600 }} key={index}>
           <CardMedia
             component="img"

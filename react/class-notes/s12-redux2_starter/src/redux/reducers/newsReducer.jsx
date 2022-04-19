@@ -1,9 +1,22 @@
-import React from 'react'
+import { SET_NEWS_LIST, CLEAR_NEWS_LIST } from "../types/newsTypes"
 
-const newsReducer = () => {
-  return (
-    <div>newsReducer</div>
-  )
+const initialState = {
+  newsList: []
 }
 
-export default newsReducer
+const newsReducer = (state = initialState, { type, payload }) => {
+  switch (type) {
+
+  case SET_NEWS_LIST:
+    return { ...state, newsList : payload }
+
+    case CLEAR_NEWS_LIST:
+  return initialState.newsList;
+
+  default:
+    return state
+  }
+}
+export default newsReducer;
+
+// API DEN ÇEKİLECEK bilgi için newsList yapıldı, burada payload kullanıldı

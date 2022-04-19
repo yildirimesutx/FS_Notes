@@ -9,6 +9,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { clearLoading, setLoading } from "../redux/actions/appActions";
 import {useDispatch} from "react-redux"
+import { setNewsList } from "../redux/actions/newsActions";
 
 const News = () => {
 
@@ -18,13 +19,16 @@ const News = () => {
     "q=Apple&" +
     "from=2022-04-18&" +
     "sortBy=popularity&" +
-    "apiKey=1a1a999e0d7240a6bd2dead87bcca78e";
+    "apiKey=061b5f2659af4d23b647088a7acd54f4";
 
   const getNews = async () => {
    try {
-     dispatch(setLoading())
-    const { data } = await axios.get(url);
-    console.log(data.articles); 
+      dispatch(setLoading())
+      const {data} = await axios.get(url);
+
+      dispatch(setNewsList(data.articles))
+      console.log(data.articles);
+
    } catch (error) {
      console.log(error)
     } finally{

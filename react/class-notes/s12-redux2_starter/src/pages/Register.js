@@ -11,11 +11,11 @@ import {
 
 import { signup } from "../utils/firebaseUtil";
 import { useNavigate } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { currentUser } = true
+  const { currentUser } = useSelector((state) => state.auth);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 

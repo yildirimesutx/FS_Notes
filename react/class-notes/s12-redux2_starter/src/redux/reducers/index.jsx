@@ -2,14 +2,14 @@ import { combineReducers } from "redux";
 // reducer ları birleştiriyor
 
 import appReducer from "./appReducer"
-// import {authReducer} from "./authReducer"
+import authReducer from "./authReducer"
 import newsReducer from "./newsReducer"
 
 // birleştirilen ana reducer a root reducer deniliyor
 
 const rootReducer = combineReducers({
     app: appReducer,
-    // auth: authReducer,
+    auth: authReducer,
     news : newsReducer,
 });
 

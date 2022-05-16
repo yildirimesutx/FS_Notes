@@ -1,4 +1,4 @@
-1- pyhton --version =>python versinını kontrol edelim
+1- python --version =>python versinını kontrol edelim
 2- python -m venv env => environment alanını oluştur, sondaki env ismi best practice farklı isimde kullanılabilir
 3- .\env\Scripts\activate (env yi aktive etmek için Scripts in içine gidip activate yap)
 !!!(Eğer bu aşamada bi hata alırsan "security error" bunu yaz -> 

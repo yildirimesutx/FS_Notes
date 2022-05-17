@@ -1,0 +1,372 @@
+1- python --version 
+
+
+2- python -m venv env (enviroment oluşturmak için, packege yönetimi için izole hale getirip proje için  yüklenen paketleri ayırmak )
+
+
+3- .\env\Scripts\activate (env yi aktive etmek için Scripts in içine gidip activate yap)
+
+
+!!!(Eğer bu aşamada bi hata alırsan "security error" bunu yaz -> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Unrestricted) 
+ve 3.adımı tekrar uygula
+
+
+
+4- pip install django (djangoyu yükle) -güncelleme çıkarsa güncelle
+
+
+
+5- django-admin startproject fscohort . ( projeyi oluştur, fscohort= kendi proje ismin)
+
+ÖNEMLİ NOT!!! : HER ZAMAN env manage.py ve proje dosyası aynı dizin sırasında olacak
+
+
+6- python manage.py runserver (server ı çalıştır)
+(deafault olarak 8000 portunda çalışır,başka serverda çalışmak isterseniz kodun sonuna numarayı eklemek yeterli. (örn: python manage.py runserver 8080))
+
+
+(Terminalde server dan çıkmak için ctrl+c)
+7- terminalde yazan http://127.0.0.1:8000/ linkine tıkla, tarayıcıda roketi gör :)
+
+
+-------APP------- OLUŞTURMA
+
+8- python manage.py startapp student ( ilk app i oluştur, student= senin app adın) 
+
+
+9- app(student) in altındaki views.py'a vermek istediğin response u yaz.
+	from django.http import HttpResponse
+
+	def home(request):
+    		return HttpResponse('Hello world')
+10-ana dizin(fscohort) altındaki urls.py'a git, import ve url patterns kısmını güncelle:
+	from student.views import home
+
+	urlpatterns = [
+    		path('admin/', admin.site.urls),
+    		path('', home, name='home')
+	]
+11-ana dizindeki (fscohort) settings.py, INSTALLED_APPS kısmına kendi app(student) ismini ekle
+	INSTALLED_APPS = [
+    		'django.contrib.admin',
+    		'django.contrib.auth',
+    		'django.contrib.contenttypes',
+    		'django.contrib.sessions',
+    		'django.contrib.messages',
+    		'django.contrib.staticfiles',
+    		'student',
+	]
+12- python manage.py runserver (tekrardan server ı çalıştır, views.py response olarak yazılan şeyi tarayıcıda görmelisin)
+
+
+>>>  pip freeze > requirements.txt   
+kurulan paketleri bir dosyaya atıyor
+
+>>> pip install -r requirements.txt 
+sonradan yüklü paketleri aktif etmek içinde bu komut lazım
+react taki packjson gibi, proje sonunda çalıştırılabilir, her paket için yenilenmesi gerekiyor
+
+<<<<<<<<<<<<<<<<<<<<<<URLS-VİESW>>>>>>>>>>>>>>>>>>>>>>>
+
+=>>>project.urls
+
+ içinde include import edildikten sonra ilgili APP içine yönlendirme yapıyoruz ve ilgili APP gidebilmesi için "" içinde url yolu tanımladık
+
+
+from django.contrib import admin
+from django.urls import path,include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('fscohort.urls'))
+]
+
+
+=>>>>APP.views
+bu dosya algorştmaların olduğu bölüm gerekli yönlendirmeler buradan yapılıyor
+
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+
+def home(request):
+    return HttpResponse("Welcome Backend")
+
+
+
+
+
+
+=>>>APP.urls 
+
+app ler içinde urls dosyasını biz oluşturuyoruz
+
+
+from django.urls import path
+from .views import home
+
+urlpatterns = [
+    path('',home,name="home" )
+]
+
+
+
+
+
+
+
+
+
+
+<<<<<<<<<<<<<<<<<<<<<   MODEL  >>>>>>>>>>>>>>>>>>>>>>>>>>>
+(https://docs.djangoproject.com/en/4.0/topics/db/models/)
+
+Database tablolarını oluşturuyoruz.
+default olarak sqlite gelmektedir, settigns içinde bu ayarlamaları yapıyoruz. DB hangisi olduğuna bakmaksızın ORM de aynı kodları yazıyoruz, 
+
+
+APP.models
+
+burada tabloları class yapısı ile tanımlıyoruz, Student classı model içindeki tüm methodları ve attributleri inherint ediyor yani miras alıyor, Student tablo ismi, first_name, last_name sütün ismi oluyor, 
+
+CharField BUNLAR GİRİLECEK VERİNİN TYPELEARI, 
+max_length=50 ise options ları
+https://docs.djangoproject.com/en/4.0/ref/models/fields/ tüm field lar için
+
+
+class Student(models.Model):  
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    number = models.IntergerField()
+
+
+#  farklı girişler için kullanılacak Field ler
+
+    about = models.TextField(null=True, blank=True)
+null=True null bırakılabilir,
+blank= True bu alana bilgi girilmesede olur 
+    
+
+     avatar = models.ImageField(null=True, blank=True, upload_to="media/")
+
+ upload_to="media/" bu media şeklinde bir dosya oluşturur ve görselleri buraya atar.
+
+   python -m pip install Pillow bu komut ile görsel kütüphanenin import edilmesi gerekir
+   
+  bu yüklenen media yı admin panelden görüntüleyebilmek için 
+   
+  setting içine URL altıan yazılır
+
+   MEDIA_URL = '/media/'
+
+project. urls içinede bu kodu yazıyoruz.
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+ DATE Field 
+
+      register_date = models.DateTimeField(auto_now_add=True) 
+   kayıt olduğunda, tarih ve saati ekler 
+      update_date = models.DateTimeField(auto_now=True)
+   güncelleme yapıldığında
+
+seçenekli Field
+     YEAR_IN_SCHOOL_CHOICES = [
+        ("FR", 'Freshman'),
+        ("SP", 'Sophomore'),
+        ("JR", 'Junior'),
+        ("SR", 'Senior'),
+        ("GRD", 'Graduate'),
+    ]
+seçenekleri clasın üsrt kısmına
+attributi de alttarafa ekliyoruz
+
+year_in_school = models.CharField(max_length=3, choices=YEAR_IN_SCHOOL_CHOICES, default="FR")
+
+
+
+
+
+
+
+
+oluşturulan modelin database aktarılması için;
+
+>>> python manage.py makemigrations , burada bir işlemyaptık django bu komutları hazırlıyor
+
+>>> python manage.py migrate , burada hazırlanan kodları DB aktarıyor
+
+bu oluşturulan modeli migrations altında inceleyebilriz.
+
+tabloyu, modeli oluşturdukatan sonra bilgi eklemek için admin paneli veya shell li kullanabiliyoruz
+
+admin oluşturmak için
+
+>>>python manage.py createsuperuser
+
+
+****bu komutu ilgili class içine yazdığımızda admin panelde belirtilen  student object diye belirtilen öğelerin görünürlüğünü değiştirdik
+
+ def __str__(self):
+        return f"{self.first_name} - {self.last_name}"
+
+*****bu komut ile tablomuzda değişikler yapabiliyoruz sıralam, tablo görünüm ismi vb. burada önemli olan DB ait bir özellik değişirse  migration komutlarını .çalıştırmak
+
+class Meta:
+        ordering = ["number"]
+        verbose_name_plural = "Öğrenciler" 
+
+
+
+***DB görüntülemek için SQLite extanions indirip, database göstere tıkladığımızda vsc inceleyebiliyoruz 
+
+*****ORM OBJECT RELATIONAL MAPPER- NESNE İLİŞKİSEL eşleştirici
+
+ORM sorgularının olduğu asıl kısım views, diğer bir yöntem shell 
+shell e ulaşmak için 
+python manage.py shell
+çıkmak için exit()
+
+shell içine 
+from fscohort.models import Student ie tabloyu import ediyoruz
+
+*obje ekleme-1 
+s1 = Student(first_name="John", last_name="doe", name=859)
+s1.save()
+
+*obje ekleme-2
+ 
+s2 = Student.objects.create(first_name="John", last_name="doe", number=859)
+
+s2.first_name şeklindesorulayabiliyoruz
+s2 şeklinde sorgularsak str de anımlı tüm attributler gelir
+
+all_s = Student.objects.all()
+all_s  
+şeklinde tüm öğrencileri veriyor ve for döngüsü ile dönebiliyorsun
+
+s1= Student.objects.get(first_name="jone")
+tekli obje çekme
+
+f1= Studebt.objects.filter(first_name="Jone")
+filtreleme yaptık
+
+
+https://docs.djangoproject.com/en/4.0/ref/models/querysets/
+
+bu linkten diğer sorgu çeşitlerine bakılabilir
+
+
+
+
+
+
+
+>>>  pip freeze > requirements.txt   
+kurulan paketleri bir dosyaya atıyor
+
+>>> pip install -r requirements.txt 
+sonradan yüklü paketleri aktif etmek içinde bu komut lazım
+
+
+
+14- models oluşturduktan sonra 
+
+>>> python manage.py makemigrations
+
+>>> python manage.py migrate
+
+>>> python manage.py shell 
+ orm sorgusu için projelerde kullanılımıyor (https://docs.djangoproject.com/en/4.0/ref/models/querysets/), denemeler için kontrol amaçlı
+
+shell den çıkış exit()
+
+
+MEDIA_URL = '/media/'     db image eklendiğinde settings içine en alta ekledik URL altına
+
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<relations>>>>>>>>>>>>>>>>>>>>>>>>>
+
+daha sade ve anlaşılır bir yapı
+daha küçük database boyutu
+daha sade sorgu
+daha hızlı response
+
+***ONE-TO-ONE***
+
+bu modelde sadece bir yapı işe eşleşebiliyor
+userların kendi sayfalarında eşleşmesi gibi, başka sayfa ile eşleşmiyor
+
+
+CREATOR          LANGUAGE
+GUİDO VAN         PYTHON
+JAMES GOSLİNG     JAVA
+BREDEN EİCH       JAVASCRİPT
+
+example
+
+class Creator(models.Model):
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+    
+    def __str__(self):
+        return self.first_name
+
+
+class Language(models.Model):
+     name = models.CharField(max_length=30)
+     yazarı = models.OneToOneField(Creator, on_delete=models.CASCADE)  
+     #Creator hangi tablo ile onetoone olacağı
+     
+     def __str__(self):
+        return self.name
+
+
+
+
+
+
+#! CASCAADE  - parent silinince silinir
+#! SET_NULL  - parent silinince null yapar
+#! PROTECT   - parent silinince hata verir
+#! DO_NOTHING - parent silinince hiçbir şey yapmaz
+#! SET_DEFAULT - parent silinince default değer atar
+
+https://classroom.github.com/a/0uBqJsId
+
+***MANY-TO-ONE***
+
+bir kullanıcının birden çok post/blog olabilir fakat o post başka bir kullnıcıya ait olamaz
+
+
+class Frameworks(models.Model):
+    name=models.CharField(max_length=30)
+    language=models.ForeignKey(Language, on_delete=models.PROTECT)
+
+
+burada tanımlananlar Lnguage de classta sadece birine gidebilirler
+
+
+
+*****MANY -TO- MANY****
+
+BİR DEVELOPOER LİSTESİ HAZIRLASAK bir developer bir çok programlama dili bilebilir,
+bir dil birden çok developer tarafından kullanılabilir
+
+
+class Developers(models.Model):
+    first_name=models.CharField(max_length=30)
+    last_name=models.CharField(max_length=30)
+    frameworks = models.ManyToManyField(Frameworks)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+
+
+
+

@@ -1,0 +1,39 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
+</head>
+
+<h1>This is Special Page!</h1>
+
+
+{{request.user}}
+<br>
+<!-- context teki claruswayı ekrana yazdırma -->
+{{title}} 
+
+<h2>The Best bootcamp {{title}}</h2>
+<h2>The Best bootcamp {{title|upper}} !</h2>
+
+{{dict1.django | title}}
+
+
+<!-- TAGS -->
+
+
+{% for i in my_list %}
+        <li>{{i}}</li>
+        {% endfor %}
+
+        
+
+
+
+{# this code is foor loop, comment #}
+
+
+{% comment %}
+    this is multi comment, burada html comment kullanılmamsı lazım, page incele dendiğinde gözükmektedir
+{% endcomment %}
+    
+ <img src="{%static 'app/kitten.png'  %}" alt='kitten' height=300px >           

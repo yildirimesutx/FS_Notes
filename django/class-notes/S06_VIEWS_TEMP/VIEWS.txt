@@ -1,0 +1,16 @@
+Simple Variables: {{ title }}
+Object Attributes: {{ page.title }}
+Dictionary Lookups: {{ dict.key }}
+List Indexes: {{ list_items.0 }}
+
+Display Logic: {% if %}...{% endif %}
+Loop Control: {% for x in y %}...{% endfor %}
+Block Declaration: {% block content %}...{% endblock %}
+Content Import: {% include "header.html" %}
+Inheritance: {% extends "base.html" %}
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]  
+
+global static dosyası kullanabilmek için setting içine yazıyourz, static url altına

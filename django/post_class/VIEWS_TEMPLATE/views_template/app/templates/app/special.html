@@ -1,0 +1,32 @@
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+
+
+
+
+<h1>This is special page</h1>
+
+{{request.user}}
+
+
+<br>
+
+<h2>The best bootcamp {{ title | upper}}</h2>
+
+{# filter gösterimi, html olarak comment yapılmaz #} 
+{{title | title}}
+
+
+{# variable gösterimi comment #}
+{{dict1.django}}
+
+{% for i in my_list %}
+    <li>{{ i }}</li>
+    {% endfor %}
+
+<img src="https://seeklogo.com/images/E/ember-logo-A8672B4054-seeklogo.com.png" alt="">    

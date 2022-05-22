@@ -1,16 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .forms import StudentForm
 
-def index(request):
-    return render(request,'student/index.html')
+
 
 def student_page(request):
-    print(request.POST)
-    form = StudentForm()
+    # print(request.POST)
+    form = StudentForm(request.POST or None)
+
+    if form.is_valid():
+        form.save()
+        return redirect("student")
     context = {
-        'form': form
-    }
+        "form" :form
+    }    
+
     return render(request, 'student/student.html', context)
 
-def base(request):
-    return render(request, 'student/base.html')    
+  

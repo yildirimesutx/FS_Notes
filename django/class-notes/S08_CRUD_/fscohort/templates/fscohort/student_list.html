@@ -4,9 +4,12 @@
 
 <ul>
    {% for i in students %}
-   <li>
+  
+       <a href="{% url 'detail' i.id %}">
+          <li>
        {{i.number}} - {{i.first_name}} {{i.last_name}}
-   </li>
+          </li>
+       </a>
    {% endfor %}
 </ul>
 

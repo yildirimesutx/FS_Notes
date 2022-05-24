@@ -1,0 +1,23 @@
+{% extends 'student/base.html' %}
+
+
+{% block container %}
+
+<h2>Student Details</h2>
+
+
+<div>
+
+{% comment %} <img src="{{i.}}" alt=""> {% endcomment %}
+<div>{{student.first_name}}</div>
+<div>{{student.last_name}}</div>
+<div>{{student.number}}</div>
+<div>{{student.email}}</div>
+</div>
+
+<div>
+    {% comment %} <a href="{% url 'update' student.id %}">Edit</a>
+    <a href="{% url 'delete' student.id %}">Delete</a> {% endcomment %}
+  </div>
+
+{% endblock %}

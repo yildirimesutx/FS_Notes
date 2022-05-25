@@ -1,0 +1,21 @@
+{% extends 'student/base.html' %}
+
+{% block container %}
+
+<h2>Student Add</h2>
+<form action="" method='POST' enctype='multipart/form'>
+   {% csrf_token %}
+
+   {{form.as_p}}
+
+   <input type="submit" value=  "ADD">
+
+
+</form>
+
+
+
+
+
+
+{% endblock container %}

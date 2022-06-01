@@ -1,0 +1,15 @@
+{% extends "fscohort/base.html" %} {% block container %}
+<h1>Home Page</h1>
+
+<h3>Student App</h3>
+
+{% endblock container %}
+```
+
+go to fscohort/views.py
+
+```python
+from django.shortcuts import render
+
+def index(request):
+    return render(request, 'fscohort/index.html')

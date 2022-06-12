@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student
+from .models import Student, Path
 from django.utils.timezone import now
 
 
@@ -44,4 +44,15 @@ class StudentSerializer(serializers.ModelSerializer):
     
     def get_days_since_joined(self, obj):
         return (now() - obj.register_date).days
+
+class PathSerializer(serializers.ModelSerializer):
+
+    # students = StudentSerializer(many=True)
+
+    # students = serializers.StringRelatedField(many=True)
+
+    students = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
+    class Meta:
+        model = Path
+        fields = '__all__'    
 

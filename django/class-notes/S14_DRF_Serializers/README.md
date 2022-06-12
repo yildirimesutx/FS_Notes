@@ -60,6 +60,8 @@ class StudentSerializer(serializers.ModelSerializer):
 
 # Validation
 
+validate lere giriş adminden yapılan işlemler için kısıltlama getirmez
+
 * Field-level validation
 
 serializers.py da ilgili serializer altına validatorların tanımı yapılabilir.
@@ -89,4 +91,36 @@ class içinde tanımladık =>
 
  def get_days_since_joined(self, obj):
         return (now() - obj.register_date).days
+
+# Relational fields
+
+*Nested Serializer
+öğrenci tablomuza ayrıca ForeignKey ile path tablomuzu bağladık
+
+path = models.ForeignKey(Path,related_name='students', on_delete=models.CASCADE)
+
+ForeignKey tanımlarken related_name='students' isimlendirdiğimiz atribut ile geliyor ÖNEMLİ
+
+example :her bir path altında tanımlanan öğrenciler gözüksün 
+
+
+class PathSerializer(serializers.ModelSerializer):
+
+    students = StudentSerializer(many=True)
+    BU DURUMDA PATH TE TANIMLANAN ATTRİBUT ALTINDA TOPLANIYOR, bütün özellikleri geliyor ONA BAĞLI ATTİBUTE KAYITLI OLAN OBJELER 
+
+    # students = serializers.StringRelatedField(many=True)
+    bu kullanımda ise students de gösterilmesi gereken kısımları belirliyoruz modeldeki self te tanımlanan çıkmaktadır
+    return f"{self.number}-{self.first_name} {self.last_name}" toplu çağırmak için tuple kullandık
+
+    # students = serializers.PrimaryKeyRelatedField
+    (read_only=True, many=True)
+   bu path altındaki id leri veriyor
+    PrimaryKeyler ile birlikte göstermektedir
+
+    class Meta:
+        model = Path
+        fields = '__all__'
+
+
 

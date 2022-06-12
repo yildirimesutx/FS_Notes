@@ -1,4 +1,4 @@
-### SERIALİZERS 
+### SERIALIZERS 
 
 
 pip install djangorestframework
@@ -19,7 +19,7 @@ Bu yöntemde CRUD işlemleri için ayrıca class içinde func ları tanımlamak 
 
 tanımlamada models.py daki attributlerin kullanılması gerekiyor
 
-serializers.py =>
+serializers.py 
 
 from rest_framework import serializers
 
@@ -58,7 +58,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
 <hr>
 
-*** Validation
+# Validation
 
 * Field-level validation
 

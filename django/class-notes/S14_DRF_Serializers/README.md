@@ -47,7 +47,7 @@ PATCH : yalnızca birkaç alanın update edilmesi
 
 <hr>
 
-*** ModelSerializer
+# ModelSerializer
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -62,5 +62,31 @@ class StudentSerializer(serializers.ModelSerializer):
 
 * Field-level validation
 
+serializers.py da ilgili serializer altına validatorların tanımı yapılabilir.
 
+validate_ sonra ilgili attribut geliyor
+
+def validate_first_name(self, value):
+        
+        if value.lower() == 'rafe':
+            raise serializers.ValidationError("Rafe can not be our student!")
+        return value  
+
+    def validate_number(self, value):
+        
+        if value > 2000:
+            raise serializers.ValidationError("Student number can not be greater than 2000!")  
+        return value
+
+* Object-level validation  
+
+SerializerMethodField() methodu kullandık, bu method, modelden gelen tabloya serializers işlemi uygularken ek olarak veri eklemek için kullanılıyor
+
+class içinde tanımladık => 
+
+
+ days_since_joined = serializers.SerializerMethodField()
+
+ def get_days_since_joined(self, obj):
+        return (now() - obj.register_date).days
 

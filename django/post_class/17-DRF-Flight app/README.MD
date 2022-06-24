@@ -548,7 +548,21 @@ class Reservation(models.Model):
     passenger = models.ManyToManyField(Passenger, related_name='reservations')
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name='reservations') 
 
+Reservasyonu yapan bir kişi olur. O reservasyon birden fazla kişiye ait olmaz. Yolcu olarak düşünmeyin user kısmını. Reservasyonu yapan kişi yani uygulamaya login olan bir kişi var.
 
+o reservasyonun iiçinde çok sayıda yolcuya bilet almış olabilir.
+
+ama o reservasyonun bir create edeni olacak
+
+o create eden başka reservasyonlar da oluşturabilir bu yüzden many to one bir ilişki var
+
+user - reservasyon tabloları arasında
+
+ama passenger - reservasyon tabloları konusu daha farklı
+
+tabi bu bizim kurduğumuz yapı. Bu kesin bu şekilde olacak değil. Farklı şekilde de düşünüp kurabilirdik.
+
+passenger - reservasyon tablosu arasında manytomany  çünkü bir reservasyonda birden çok kişi olabilir. Örneğin anne-baba-çocuk bir reservasyonda passenger olabilir. Aynı şekilde bu passengerlar birden fazla reservanyonda da olabilirler. Yani many to many oluyor
 
 user : ManyToOne ilişki mevcut, bir kullanacıbir çok reservation yapabilir
 user silindiğinde reservationlarıda silincek, User tablasundan aldık
@@ -586,6 +600,120 @@ flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name='reser
 -- viewset kullanıldığından urls.py da router yapısı kullanıyoruz. tek bir url pattern ile crud işlemleri yapmamızı sağlıyor
 
 -- bu aşamada api görüntüledik ve post get put delete yapabiliyoruz, herhangi bir kullanıcı kısıtlaması olmadan bu işlemleri yaptık, 2. aşamda kullanıcı permissionsları getirerek ilerleyeceğiz.
+
+---------***2***--------------
+
+oluşturmuş olduğumuztabloları tümkullancılar kullanıcı olmayanlar herkes görebiliyor ve crud işlemleri yapabiliyor, PERMISSIONS tanımlıyoruz.
+
+permissions.py file oluşturduk.
+
+içerisine 
+
+class IsStafforReadOnly(permissions.IsAdminUser):
+     
+      def has_permission(self, request, view):
+        return bool(request.user and request.user.is_staff)
+
+IsAdminUser ı inheritettik ve sourcode dan yukarıdaki ifadeyi aldık,  sourecoda sadece admin user için şartkoyulmuş biz ek olarak,
+
+SAFE_METHODS: get, options, safe olmayanlar put post delete
+
+request istek varsa get olarak cevap ver
+
+method post, put delete ise admin özelliği ara şeklinde algoritma yazdık
+
+ilgili permissions u kısıtlamam getireceğimiz tablo için views.py class içine yazıyoruz.
+
+from .permission import IsStafforReadOnly
+
+
+class FlightView(viewsets.ModelViewSet):
+    queryset = Flight.objects.all()
+    serializer_class =  FlightSerializer
+    permission_classes = (IsStafforReadOnly,) 
+
+
+bu yetkilendirmeyi postmanda kontrol edebiliyoruz. staff ve n-login user tokenları ile test edilir  
+
+
+------- ***3***----------
+reservation (relatioship) tablosundan oluşturduğumuz reservasyonlar bu şekilde geliyor, bunları id ile değilde isimleri ile çağıracağız,
+
+
+
+[
+    {
+        "id": 1,
+        "user": 1,
+        "flight": 2,
+        "passenger": [
+            1,
+            2
+        ]
+    }
+]
+
+
+* Nested olarak tanımlayacağız...
+
+
+ilgili serializers içinde diğer serializersları çağırdık,
+
+
+
+class ReservationSerializer(serializers.ModelSerializer):
+
+    passenger = PassengerSerializer(many=True, required=False)
+    # flight = FlightSerializer()
+    flight = serializers.StringRelatedField()
+    user = serializers.StringRelatedField()
+    flight_id = serializers.IntegerField(write_only=True)
+    user_id = serializers.IntegerField(write_only=True, required=False)
+
+
+    class Meta:
+        model = Reservation
+        # fields = '__all__'
+        fields =(
+           "id",
+           "flight",
+           "flight_id",
+           "user",
+           "user_id",
+           "passenger"
+        )
+
+
+- field ları çağırken string ve serailizr olarak farklı yöntem kullanabiliriz.Strinfield modeldeki str de tanımlananları getirir.
+- StringRelatedField ler post işlemlerinde çalışmıyor, sadece read_only de çalışıyor
+
+- bu sebepler çağırdığımız fileldları id ile de çağırdık, ve write_only olarak tanımladık, sadece created yapılırken kullanılsın diye, 
+
+
+----- *** 4 *** -----
+
+
+- Şu an hali hazırda nested olarak gelen tablada create işlemi yapamdık postmanda, swagger ile örnek gönderilecek post şamasını aldık, 
+
+- http://127.0.0.1:8000/flight/resv/ sayfasından da passenger kayıt edemiyoruz. 
+
+- get olayında sorun olmuyor post yaparken sorun olduğu için 
+
+- nested yapı olarak ayarladığımız reservasyon tablosunda create işlemi yapabilmek için serializers da create func tanımlamamız gerekiyor.
+
+- ManyToMany tabloda create işlemi yapacağız. 
+
+- Tek bir işlemle passenger ları create edip reservasyon yapacağız.
+
+
+
+
+
+
+
+
+
+
 
 
 

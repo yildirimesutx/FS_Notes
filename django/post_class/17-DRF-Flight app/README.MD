@@ -11,7 +11,8 @@ https://drf-yasg.readthedocs.io/en/stable/readme.html
 
 pip install drf-yasg
 
-INSTALLED_APPS = [
+```html
+< INSTALLED_APPS = [
     # ...'django.contrib.staticfiles',
     # required for serving swagger ui's css/js files
     # Third party apps:
@@ -20,7 +21,8 @@ INSTALLED_APPS = [
     'drf_yasg',# 
     
     ...]
-
+```    
+>
 project urls.py içerisine => 
 
 from django.contrib import admin

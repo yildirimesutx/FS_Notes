@@ -133,6 +133,8 @@ INTERNAL_IPS = [
 
 Inside "settings" folder, 
 create;
+```html
+
 
 __init__.py => which is the required file to create a python module. yönlendirme işlemi burada yapılıyor
 
@@ -220,7 +222,7 @@ SQL_HOST=localhost
 SQL_PORT=5432
 
 
-
+```
 
 
 
@@ -228,6 +230,9 @@ SQL_PORT=5432
 burada gelecek hataların kayır edilmesi için bir file oluşturduk ve bu file da ve terminalde hataları sınıflarına göre listeledik. aşağıdaki kod olduğu gibi bas.py en sonuna ekleniyor
 ve otomatik olarak debug.log file oluşuyor.
 
+
+
+```html
 
 LOGGING = {
     "version": 1,
@@ -276,6 +281,9 @@ LOGGING = {
         },
     },
 }
+
+
+```
 .env=>
 DJANGO_LOG_LEVEL=INFO
 
@@ -293,6 +301,8 @@ https://dj-rest-auth.readthedocs.io/en/latest/index.html
 
 pip install dj-rest-auth
 
+```html
+
 
 INSTALLED_APPS = (
     ...,
@@ -302,22 +312,26 @@ INSTALLED_APPS = (
     'dj_rest_auth'
 )
 
+```
 
 python manage.py migrate
 
 app urls.py içinde 
 
+```html
 urlpatterns = [
     ...,
     path('dj-rest-auth/', include('dj_rest_auth.urls'))
 ]
 
+```
 patterns ne yönlendirme yapıyoruz.
 aşağıda belirtildiği gibi,
 
 ilgili auth işlemlerini seçiyoruz,
 
 
+```html
 
 users/ auth/ password/reset/ [name='rest_password_reset']
 users/ auth/ password/reset/confirm/ [name='rest_password_reset_confirm']
@@ -326,9 +340,11 @@ users/ auth/ logout/ [name='rest_logout']
 users/ auth/ user/ [name='rest_user_details']
 users/ auth/ password/change/ [name='rest_password_change']
 
+```
 
 bu peketin register işlemleri içinde özelliği bulunmaktada fakat özelleştirilebilirlik açısından biz kendi registerimizi yazdık 
 
+```html
 
 
 urlpatterns = [
@@ -336,7 +352,7 @@ urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls'))
 ]
-
+```
 
 ayrıca social hesapları ile auth işlemlerine imkan sağlamaktadır. 
 
@@ -351,6 +367,8 @@ User modelinden register işlemini tanımlıyoruz. Burada değiştirmek istediğ
 emaili uniq ve zorunlu olması için tekrar tanımladık,
 
 serializers.py
+
+```html
 
 from rest_framework import serializers
 from django.contrib.auth.models import User
@@ -405,6 +423,11 @@ class RegisterSerializer(serializers.ModelSerializer):
             )
         return data 
 
+```
+
+```html
+
+
 views.py
 
 from rest_framework.generics import CreateAPIView
@@ -416,7 +439,9 @@ class RegisterView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
 
+```
 
+```html
 
 urls.py 
 
@@ -430,6 +455,9 @@ urlpatterns = [
     path("register/", RegisterView.as_view()),
 ]
 
+```
+```html
+
 base.py
 
 REST_FRAMEWORK = {
@@ -440,7 +468,11 @@ REST_FRAMEWORK = {
 }
 
 
+```
+
 *** signals.py ***
+```html
+
 
 ilgili app de signals.py da 
 
@@ -487,9 +519,12 @@ def create(self, request, *args, **kwargs):
             data["token"] = "No token created for this user.... :))"
         headers = self.get_success_headers(serializer.data)
         return Response(data, status=status.HTTP_201_CREATED, headers=headers)
-
+```
 
 *** USERS bilgilerinin frontende gönderilmesi ****
+
+```html
+
 
 from dj_rest_auth.serializers import TokenSerializer
 
@@ -521,8 +556,8 @@ REST_AUTH_SERIALIZERS = {
     'TOKEN_SERIALIZER': 'users.serializers.CustomTokenSerializer',
 
 }
-
-## FLIGHTS APP
+```
+# FLIGHTS APP
 
 *** 1 ***
 * Projede kullancağımız tablolar için planlamamızı yaptık.
@@ -555,11 +590,14 @@ flight, passenger , reservation ve django modelden aldığımız User
 
 3 atblodan faydalanarak oluşturduğumuz reservation tablomuzu inceleyelim
 
+```html
+
 
 class Reservation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     passenger = models.ManyToManyField(Passenger, related_name='reservations')
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name='reservations') 
+```
 
 Reservasyonu yapan bir kişi olur. O reservasyon birden fazla kişiye ait olmaz. Yolcu olarak düşünmeyin user kısmını. Reservasyonu yapan kişi yani uygulamaya login olan bir kişi var.
 
@@ -621,12 +659,14 @@ oluşturmuş olduğumuztabloları tümkullancılar kullanıcı olmayanlar herkes
 permissions.py file oluşturduk.
 
 içerisine 
+```html
+
 
 class IsStafforReadOnly(permissions.IsAdminUser):
      
       def has_permission(self, request, view):
         return bool(request.user and request.user.is_staff)
-
+```
 IsAdminUser ı inheritettik ve sourcode dan yukarıdaki ifadeyi aldık,  sourecoda sadece admin user için şartkoyulmuş biz ek olarak,
 
 SAFE_METHODS: get, options, safe olmayanlar put post delete
@@ -639,6 +679,7 @@ ilgili permissions u kısıtlamam getireceğimiz tablo için views.py class içi
 
 from .permission import IsStafforReadOnly
 
+```html
 
 class FlightView(viewsets.ModelViewSet):
     queryset = Flight.objects.all()
@@ -646,12 +687,15 @@ class FlightView(viewsets.ModelViewSet):
     permission_classes = (IsStafforReadOnly,) 
 
 
+```
 bu yetkilendirmeyi postmanda kontrol edebiliyoruz. staff ve n-login user tokenları ile test edilir  
 
 
 ------- ***3***----------
 reservation (relatioship) tablosundan oluşturduğumuz reservasyonlar bu şekilde geliyor, bunları id ile değilde isimleri ile çağıracağız,
 
+
+```html
 
 
 [
@@ -665,13 +709,15 @@ reservation (relatioship) tablosundan oluşturduğumuz reservasyonlar bu şekild
         ]
     }
 ]
-
+```
 
 * Nested olarak tanımlayacağız...
 
 
 ilgili serializers içinde diğer serializersları çağırdık,
 
+
+```html
 
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -696,7 +742,7 @@ class ReservationSerializer(serializers.ModelSerializer):
            "passenger"
         )
 
-
+```
 - field ları çağırken string ve serailizr olarak farklı yöntem kullanabiliriz.Strinfield modeldeki str de tanımlananları getirir.
 - StringRelatedField ler post işlemlerinde çalışmıyor, sadece read_only de çalışıyor
 
@@ -719,6 +765,8 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 - Tek bir işlemle passenger ları create edip reservasyon yapacağız.
 
+```html
+
 
 def create(self, validated_data):
         passenger_data = validated_data.pop('passenger')
@@ -734,15 +782,7 @@ def create(self, validated_data):
         reservation.save()
         return reservation
 
-
-
-
-
-
-
-
-
-
+```
 
 ----***5***-------
 
@@ -763,6 +803,7 @@ def create(self, validated_data):
 
 yukarıdaki kodu aldık ve aşağıdaki gibi override edeceğiz.
 
+```html
 
 
  def get_queryset(self):
@@ -773,6 +814,7 @@ yukarıdaki kodu aldık ve aşağıdaki gibi override edeceğiz.
        return queryset.filter(user=self.request.user)          
 
 
+```
 tüm veriyi aldık, eğer is_staff ise hepsini göster,
 değilse user olan ile queryseti oluşturan user eşit olanları göster
 
@@ -781,6 +823,9 @@ değilse user olan ile queryseti oluşturan user eşit olanları göster
 - Staff users flight/flights listesi geldiğinde nu uçuşlara ait reservationlarıda görmesini sağlayacağız.
 
 serializers.py =>
+
+```html
+
 
 class StaffFlightSerializer(serializers.ModelSerializer):
     
@@ -798,7 +843,7 @@ class StaffFlightSerializer(serializers.ModelSerializer):
             "etd",
             "reservations",
         )
-
+```
 - tanımladığımız serializers class da, Reservation modelinde tanımladığımız related_name='reservations' kullanıyoruz. get methodunda kullanılması için read_only=True yazdık, 
 
 - oluşturduğumuz serializer view içinde kullanacağız, fakat FlightView için tanımladığımız serializer vardı, bu view içinde override işlemi yapıyoruz.
@@ -807,7 +852,7 @@ class StaffFlightSerializer(serializers.ModelSerializer):
 
 kullandık, burada gelen isteğe göre serializer kullanılabiliyor.
 
-
+```html
 
 def get_serializer_class(self):
         serializer = super().get_serializer_class()
@@ -815,6 +860,8 @@ def get_serializer_class(self):
             return StaffFlightSerializer
         return serializer 
 
+
+```
 
 ---- ***7*** ----
 
@@ -826,6 +873,7 @@ python date ve datetime modüllerini import ettik
 
 strftime('%H:%M:%S') pythondan gelen bir özellik
 
+```html
 
 
  def get_queryset(self):
@@ -847,6 +895,7 @@ strftime('%H:%M:%S') pythondan gelen bir özellik
             return queryset  
 
 
+```
 
 
 

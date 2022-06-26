@@ -692,8 +692,9 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 ----- *** 4 *** -----
 
+***Nesned Create***
 
-- Şu an hali hazırda nested olarak gelen tablada create işlemi yapamdık postmanda, swagger ile örnek gönderilecek post şamasını aldık, 
+- Şu an hali hazırda nested olarak gelen tabloda create işlemi yapamadık postmanda, swagger ile örnek gönderilecek post şemasını aldık, postmandan post işlemi başarız oldu
 
 - http://127.0.0.1:8000/flight/resv/ sayfasından da passenger kayıt edemiyoruz. 
 
@@ -704,6 +705,134 @@ class ReservationSerializer(serializers.ModelSerializer):
 - ManyToMany tabloda create işlemi yapacağız. 
 
 - Tek bir işlemle passenger ları create edip reservasyon yapacağız.
+
+
+def create(self, validated_data):
+        passenger_data = validated_data.pop('passenger')
+        <!-- datanın içinde pop ile passenger i yakaladık -->
+        print(validated_data)
+        validated_data['user_id'] = self.context['request'].user.id
+        <!-- login olan user atama yaptık, serializers içinde request.user ile atama yapamıyoruz -->
+        reservation = Reservation.objects.create(**validated_data)
+        <!-- bir reservation da bir çok yolcu olacağından for ile devam ettik -->
+        for passenger in passenger_data:
+            pas = Passenger.objects.create(**passenger)
+            reservation.passenger.add(pas)
+        reservation.save()
+        return reservation
+
+
+
+
+
+
+
+
+
+
+
+----***5***-------
+
+
+* oluşturulan reservasyonları kullanıcılara göre kısıtlama
+
+- views.py da yazdığımız bu kod ile tüm reservasyonları çağırdık,
+
+- class ReservationView(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class =  ReservationSerializer
+
+
+- bu kodu override edeceğiz, ModelViewSet -> GenericAPIViews den
+
+ def get_queryset(self):
+        return super().get_queryset()
+
+yukarıdaki kodu aldık ve aşağıdaki gibi override edeceğiz.
+
+
+
+ def get_queryset(self):
+       queryset = super().get_queryset()
+    #    queryset = Reservation.objects.all() yukarıdaki ile aynı 
+       if self.request.user.is_staff:
+           return queryset
+       return queryset.filter(user=self.request.user)          
+
+
+tüm veriyi aldık, eğer is_staff ise hepsini göster,
+değilse user olan ile queryseti oluşturan user eşit olanları göster
+
+---***6***----
+
+- Staff users flight/flights listesi geldiğinde nu uçuşlara ait reservationlarıda görmesini sağlayacağız.
+
+serializers.py =>
+
+class StaffFlightSerializer(serializers.ModelSerializer):
+    
+    reservations = ReservationSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Flight
+        fields = (
+            "id",
+            "flight_number",
+            "operation_airlines",
+            "departure_city",
+            "arrival_city",
+            "date_of_departure",
+            "etd",
+            "reservations",
+        )
+
+- tanımladığımız serializers class da, Reservation modelinde tanımladığımız related_name='reservations' kullanıyoruz. get methodunda kullanılması için read_only=True yazdık, 
+
+- oluşturduğumuz serializer view içinde kullanacağız, fakat FlightView için tanımladığımız serializer vardı, bu view içinde override işlemi yapıyoruz.
+
+- ModelViewSet-> GenericAPIView -> def get_serializer_class(self): 
+
+kullandık, burada gelen isteğe göre serializer kullanılabiliyor.
+
+
+
+def get_serializer_class(self):
+        serializer = super().get_serializer_class()
+        if self.request.user.is_staff:
+            return StaffFlightSerializer
+        return serializer 
+
+
+---- ***7*** ----
+
+-Eski uçuşların gözükmemesi
+
+from datetime import datetime, date
+
+python date ve datetime modüllerini import ettik
+
+strftime('%H:%M:%S') pythondan gelen bir özellik
+
+
+
+ def get_queryset(self):
+        now = datetime.now()
+        current_time = now.strftime('%H:%M:%S')
+        today = date.today()
+
+        if self.request.user.is_staff:
+            return super().get_queryset()
+            <!-- staff ise hepsini görsün -->
+        else:
+            queryset = Flight.objects.filter(date_of_departure__gt=today)
+            <!-- bugünden büyük olanları aldık -->
+            if Flight.objects.filter(date_of_departure=today):
+                today_qs =Flight.objects.filter(date_of_departure=today).filter(etd__gt=current_time)
+                <!-- tarih bugün ve saat kısıtlaması yaptık -->
+                queryset = queryset.union(today_qs)
+                <!-- yukarıdaki iki sorguyu birleştirdik. -->
+            return queryset  
+
 
 
 

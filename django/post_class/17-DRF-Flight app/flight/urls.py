@@ -6,7 +6,6 @@ router.register('flights', FlightView)
 router.register('resv', ReservationView)
 
 
-
 urlpatterns = [
     # path('', include(router.urls))
 ]

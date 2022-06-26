@@ -12,7 +12,7 @@ https://drf-yasg.readthedocs.io/en/stable/readme.html
 pip install drf-yasg
 
 ```html
-< INSTALLED_APPS = [
+INSTALLED_APPS = [
     # ...'django.contrib.staticfiles',
     # required for serving swagger ui's css/js files
     # Third party apps:
@@ -22,16 +22,25 @@ pip install drf-yasg
     
     ...]
 ```    
->
+
+```html
+
+```
+
+
+
+
 project urls.py içerisine => 
 
+```html
 from django.contrib import admin
 from django.urls import path, include
-
-# Three modules for swagger:
+<!-- Three modules for swagger: -->
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+
+
 
 
 schema_view = get_schema_view(
@@ -58,7 +67,7 @@ urlpatterns = [
     <!-- path('__debug__/', include('debug_toolbar.urls')), -->
 ]
 
-
+```
 
 python manage.py migrate 
 
@@ -77,7 +86,9 @@ logging
 
 gibi başlıklar ile projede kontrol panelii oluşturuyor,
 
+* kurulumu
 
+```html
 pip install django-debug-toolbar
 
 
@@ -117,7 +128,7 @@ INTERNAL_IPS = [
 "127.0.0.1",
 
 ]
-
+```
 # Seperate Dev and Prod Settings
 
 Inside "settings" folder, 

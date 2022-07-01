@@ -20,6 +20,7 @@ web: gunicorn main.wsgi     buradaki main project ismi ile aynı olacak
 pip install gunicorn
 
 3=>
+```
 settings.py içine
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -27,25 +28,30 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
 os.path.join(BASE_DIR, 'static'),
 )
+```
 
 4=>
+
 pip install whitenoise
 
 5=>
+```
 settings.py içinde MIDDLEWARE da en üste aşağıdaki kodu yazıyoruz. 
 
 MIDDLEWARE = (
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 'whitenoise.middleware.WhiteNoiseMiddleware',
-
+```
 6=>
+```
 settings.py en altına yapıştırdık
 
 STATICFILES_STORAGE =
 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+```
 7=>
+```
 settings.py da import ettik, ilgili kodu en alta yazdık
 
 pip install django-heroku
@@ -53,7 +59,7 @@ pip install django-heroku
 import django_heroku
 
 django_heroku.settings(locals())
-
+```
 8=>
 
 https://cli-assets.heroku.com/heroku-x64.exe  clı KURDUK
@@ -91,7 +97,7 @@ heroku config:set DISABLE_COLLECTSTATIC=1
 10 . madde de key ler ve db oluşturacağız.
 
 sırası ile terminalden komutları yazıyoruz.
-
+```
 heroku config:set DEBUG = True
 
 heroku config:set SQL_DATABASE=todoapidb
@@ -109,7 +115,7 @@ heroku config:set SQL_PORT=5432
 
 SECRET_KEY = *tj+&w1!cfzmb&p5meb7mzwip68^bo7el#&=rk9r46!n(qt5r(
 
-
+```
 11=>
 
 bu aşamadan sonra heroku tarafından verilen url çalışması gerekmektedir. 

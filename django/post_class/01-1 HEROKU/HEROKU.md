@@ -5,7 +5,7 @@
 
 herokuya CLI ile deploy yönteminde, Github da olan repoyu local e clonlaya biliriz, yada localde çalıştığımız ve github a pushladığımız versiyonunu kullanabiliriz. 
 
- her iki yöntemde de .git klasörü  silerek devam edeceğiz. Heroku üzerinde yeni bir branch oluşturarak devam edeceğiz. 
+bu yöntemde de .git klasörü  silerek devam edeceğiz. Heroku üzerinde yeni bir branch oluşturarak devam edeceğiz. 
 
 1=>
 ana dizinde Procfile isimli file oluşturduk,

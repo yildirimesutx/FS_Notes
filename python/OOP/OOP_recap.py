@@ -1,3 +1,6 @@
+import os
+os.system('cls' if os.name == 'nt' else 'clear')
+
 # 1. LESSON/VIDEO-class-object
 # class Personel:
 #     pass
@@ -134,29 +137,29 @@
 
 #! Personel.zam_oranı şeklinde kullanılması durumunu açıklamak için  örnek yapıldı.
 
-class Personel:
+# class Personel:
 
-    zam_orani = 1.05
+#     zam_orani = 1.05
 
-    def __init__(self, isim, soyisim, maas):
-        self.isim = isim
-        self.soyisim = soyisim
-        self.maas = maas
-        self.eposta = f'{isim.lower()}.{soyisim.lower()}@firmam.com'
+#     def __init__(self, isim, soyisim, maas):
+#         self.isim = isim
+#         self.soyisim = soyisim
+#         self.maas = maas
+#         self.eposta = f'{isim.lower()}.{soyisim.lower()}@firmam.com'
 
-    def  tam_isim(self):  
-        return f'{self.isim} {self.soyisim}' 
+#     def  tam_isim(self):  
+#         return f'{self.isim} {self.soyisim}' 
 
-    def zam_uygula(self):
-        # self.maas = int(self.maas*1.05)  # hard kod uyguladık, 
-        # Personel.maas = int(self.maas * Personel.zam_orani) # class ile çağırdığımızda nesneler için kullanıldığında çalışmadı
-        self.maas = int(self.maas * Personel.zam_orani)
-
-
+#     def zam_uygula(self):
+#         # self.maas = int(self.maas*1.05)  # hard kod uyguladık, 
+#         # Personel.maas = int(self.maas * Personel.zam_orani) # class ile çağırdığımızda nesneler için kullanıldığında çalışmadı
+#         self.maas = int(self.maas * Personel.zam_orani)
 
 
-per_1 = Personel("John", "Smith", 30000)
-per_2 = Personel("Mary", "Smith", 35000)
+
+
+# per_1 = Personel("John", "Smith", 30000)
+# per_2 = Personel("Mary", "Smith", 35000)
 
 # print(Personel.zam_orani)
 # print(per_1.zam_orani)
@@ -193,5 +196,119 @@ per_2 = Personel("Mary", "Smith", 35000)
 # print(per_2.zam_orani)
 
 # print(per_1.__dict__)
+
+
+#* 3.LESSON/VIDEO-class method
+
+# Regular Method : sıradan method 2. derste yaptığımız gibi,  nesnenin kendisini alır. argüman olarak self alıyor, nesne üzerinden çağırıyoruz.
+
+# Class Method  : Argüman olarak class ı tanımlıyoruz. Bu tanımlanan method ile nesnelere uygulandığında tün bu classtan türetilmiş nesneler ve class etkileniyor
+
+# Statik Method :methodun içerisinde class ya da nesneye ait bir tanımlamaya/attribute ihtiyaç duymadan yapılan methodlara denir.
+# 
+# 
+#  
+ 
+
+
+
+
+
+
+class Personel:
+    personel_sayisi = 0
+    zam_orani = 1.05
+
+    def __init__(self, isim, soyisim, maas):
+        self.isim = isim
+        self.soyisim = soyisim
+        self.maas = maas
+        self.eposta = f'{isim.lower()}.{soyisim.lower()}@firmam.com'
+        Personel.personel_sayisi +=1
+
+    def  tam_isim(self):  
+        return f'{self.isim} {self.soyisim}' 
+
+    def zam_uygula(self):
+        self.maas = int(self.maas * self.zam_orani)
+
+    @classmethod
+    def zam_oranini_belirle(cls, oran):
+        # cls.zam_orani = oran # class in içinde bir attributü tanıttığımız i.in cls.zam_oranı şeklinde kullandık 1. kullanım
+        eski_oran = cls.zam_orani # 2. tanımlama, burada esli_oran method içinde tanımlandı bu sebeple cls kullanılmadı, eski oranı tanımladık, sonra yeni değeri tanımlanık
+        cls.zam_orani = oran
+        print(f'Eski zam orani ({eski_oran}) güncellendi. Yeni oran: {cls.zam_orani}')
+
+    @classmethod
+    def from_string(cls, per_str):  #per_str şeklinde gelen stringi al ve split ile ayır, isim, soyisim, maas şeklinde
+      isim, soyisim, maas = per_str.split("-")
+      return cls(isim, soyisim, maas)
+
+    @staticmethod
+    def mesai_gunu(gun):
+        if gun.weekday() == 5 or gun.weekday() == 6:
+            return "hafta sonu"
+        else:
+            return "hafta ici"
+
+
+
+# yukarıda tanımlanan staticmethod için bir örnek yaptık
+import datetime
+tarih = datetime.date(2020,3,27)
+print(tarih.day)
+print(Personel.mesai_gunu(tarih))
+
+
+
+
+
+
+
+
+per_1 = Personel("John", "Smith", 30000)
+per_2 = Personel("Mary", "Smith", 35000) 
+
+# class method tanımlanırken, @classmethod dekaretörü kullanılır, argüman olarak class ı temsilen "cls" anahtar sözcüğünü alır. Argüman ile birlikte yeni tanımlayacağımız değeride ekledik.            
+
+
+
+# Personel.zam_oranini_belirle(oran) # içerisine alacağı değer "oran" olrak tanımlandığı için syntax ı bu şekilde olcak,
+
+
+
+# # Personel.zam_oranini_belirle(1.3)
+# Personel.zam_orani = 1.3  2. derste yaptığımız tanımlama ile aynı
+
+# per_1.zam_oranini_belirle(1.5) # nesne üzerinden method çağrıldığında tüm classtan türetilmiş nesneler etkileniyor
+
+
+print(Personel.zam_orani)
+print(per_1.zam_orani)
+print(per_2.zam_orani)
+
+print(per_1.__dict__)
+
+# class methoddan yapılandırma ile yeni nesne üretilmesi 
+
+# @classmethod
+#     def from_string(cls, per_str):  #per_str şeklinde gelen stringi al ve split ile ayır, isim, soyisim, maas şeklinde
+#       isim, soyisim, maas = per_str.split("-")
+#       return cls(isim, soyisim, maas)
+
+
+new_per_1 = Personel.from_string("Sam-Winchester-40000")
+
+print(new_per_1.maas)
+print(new_per_1.eposta)
+
+
+#tanımlamalar dışında bir tarih func çalışması
+# from datetime import datetime
+
+# timestamp = 1545730073
+# dt_object = datetime.fromtimestamp(timestamp)
+# print(dt_object)
+
 
 

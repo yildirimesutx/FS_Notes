@@ -13,7 +13,7 @@ class Personel:
         self.soyisim = soyisim
         self.maas = maas
         self.eposta = f'{isim.lower()}.{soyisim.lower()}@firmam.com'
-        print(f"Yeni personel tanımlandı {isim} {soyisim}")
+        # print(f"Yeni personel tanımlandı {isim} {soyisim}")
 
 
     def  tam_isim(self):  
@@ -75,14 +75,14 @@ class Personel:
 
 #=> Sub class a attribut tanımlanması
 
-# class Yazilimci(Personel):
-#     zam_orani = 1.1
+class Yazilimci(Personel):
+    zam_orani = 1.1
 
-#     def __init__(self, isim, soyisim, maas, prog_dili):
-#         # Personel.__init__(self, isim, soyisim, maas)
-#         super().__init__(isim, soyisim, maas)
-#         self.prog_dili = prog_dili
-#         print(f"Yeni personel yazılımcı kategorisine tasındı {self.isim} {self.soyisim}")
+    def __init__(self, isim, soyisim, maas, prog_dili):
+        # Personel.__init__(self, isim, soyisim, maas)
+        super().__init__(isim, soyisim, maas)
+        self.prog_dili = prog_dili
+        # print(f"Yeni personel yazılımcı kategorisine tasındı {self.isim} {self.soyisim}")
 
 # yukarıda init ile yeni tanımlamalar için oluşturuyoruz,
 # def init ile içinde olması gereken attirbutleri yazdık, ana class ın kileri dahil ettik, ayrı olarak eklemek istediğimiz atributu yazdık,
@@ -109,11 +109,62 @@ class Personel:
 #  ikinci sub class oluşturulması
 
 class Mudur(Personel):
-    pass 
+
+    def __init__(self, isim, soyisim, maas, personeller=None):
+        super().__init__(isim, soyisim, maas)
+        if personeller is None :
+           self.personeller = []
+        else:   
+           self.personeller = personeller
+
+    def personel_ekle(self, per):
+           if per not in self.personeller:
+              self.personeller.append(per)
+
+    def personel_cikar(self, per):
+        if per in self.personeller:
+            self.personeller.remove(per)
+
+    def personelleri_listele(self):
+        for e, per in enumerate(self.personeller):
+            e += 1
+            print(e, per.tam_isim())        
+
+
+
+
+# yukarıda gerçek bir durumu canlandırdık, mdr_2 nesnesi gibi ilk oluşturuluken personel olmazsa hata alınmasın diye None tanımladık ve şart tanımladık
+       
+
 
 yaz_1 = Yazilimci("John", "Smith", 30000, "python")
 yaz_2 = Yazilimci("Mary", "Smith", 35000, "javascript")
 
-mdr_1 = Mudur("John", "Wick", 50000,[yaz_1, yaz_2])
+# mdr_1 = Mudur("John", "Wick", 50000,[yaz_1, yaz_2])
+
+# mdr_2 = Mudur("John", "Snow", 50000)
+mdr_1 = Mudur("John", "Wick", 50000,[yaz_1])
+
+print(mdr_1.tam_isim())
+print("______________")
+mdr_1.personelleri_listele()
+print("______________")
+mdr_1.personel_ekle(yaz_2)
+print("______________")
+mdr_1.personelleri_listele()
+mdr_1.personel_cikar(yaz_1)
+mdr_1.personelleri_listele()
 
 
+
+# isinstance()
+
+print(isinstance(yaz_1, Personel))
+print(isinstance(yaz_1, Mudur))
+
+# nesnelerin hangi classa ait olduğunu verir
+print(isinstance(123, int))
+
+# issubclass()
+#classların hangi clastan türetildiğini verir.
+print(issubclass(Mudur, Yazilimci))

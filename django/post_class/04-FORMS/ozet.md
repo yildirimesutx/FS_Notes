@@ -60,6 +60,7 @@ template de form un görüntülenmesi için bir form yapısı için aldık,
     ++  enctype="multipart/form-data"  bu özellik ile forma resim vebelge yüklenebilmektedir
     ++  as_p ile de herbir gelen satır arasına boşluk bırak  için p tagı yazılmıştır
 
+```
 ### forma fotoğraf gönderilmesi
 
   if form.is_valid():
@@ -77,7 +78,10 @@ models içindeki ;
 değişkende bu şekilde oluşturuluyor
 
 
+```
 
+
+```
 ### BOOTSTRAP BAĞLAMA
 
 
@@ -101,7 +105,10 @@ html en üst kısma
 
 {% load static %} 
 
+```
 
+
+```
 ## ayrıca django da kullanılan form yapıs 
 
 pip install django-crispy-forms,   ile bu yapıyı yükledik
@@ -120,10 +127,12 @@ formun üstüne
 ayrıca form u çağırdığımız yerde crispy bu şekilde uyguladık
 {{ form | crispy }}
 
+```
 
 
 
 
+```
 #### TOASTFY 
 
 from django.contrib import messages
@@ -134,8 +143,38 @@ viewsy sayfasında import ediyoruz
 redirect tan önce yazılır 
   messages.success(request, "Student saved successfully")
 
-  
 
+base.html
+
+--mesajın geldiği yapı
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == "error" %}
+    <div class="alert alert-danger">{{ message }}</div>
+    {% else %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+--mesajı belli sn sonra kaldırma için
+<script src="{% static 'student/timeout.js' %}"></script>
+
+```
+```
+
+
+static/student folder içinde
+
+timeout.js=>
+
+let element = document.querySelector('.alert');
+
+setTimeout(function () {
+  element.style.display = 'none';
+}, 3000);
+
+```
 
 
 html sayfalara static dosyaları import etmek için =>  

@@ -110,7 +110,7 @@ registration/register.html
 
  yukarıda yazmış olduğum hali ilede oluşturulam html sayfasına form yapısı geliyor fakat kayıt işlemi olmuyor, bu sebeple def register()
  bir kaç işlem yapmalıyız
-
+```
 def register(request):
 
     if request.method == 'POST':   
@@ -118,9 +118,9 @@ def register(request):
 
           if form.is_valid():
             form.save()
-
+```
 #buraya kadar normal bir kontrol işlemi yaptık, form dolduruldu mu? bundan sonra login işleminin sağlanması için devam ediyoruz,
-
+```
    login, authenticate i import ediyoruz
 
    form cleaned yapılarını django yapısından aldık, aşağıdaki username ve password u da sayfayı sağ tıklayıp incelediğimizde gönderdiğimiz formdan aldık
@@ -142,7 +142,7 @@ def register(request):
 
     return render(request, 'registration/register.html', context)
 
-   
+```   
 
 ******PASS-CHANGE***
 

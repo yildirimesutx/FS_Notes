@@ -41,7 +41,7 @@ ana urls.py
  path('accounts/', include('django.contrib.auth.urls'))
  
  8000/accounts/ ile sayfalara gidiyoruz
-
+```
 accounts/login/ [name='login']
 accounts/logout/ [name='logout']
 accounts/password_change/ [name='password_change']
@@ -50,7 +50,7 @@ accounts/password_reset/ [name='password_reset']
 accounts/password_reset/done/ [name='password_reset_done']
 accounts/reset/<uidb64>/<token>/ [name='password_reset_confirm']
 accounts/reset/done/ [name='password_reset_complete']
-
+```
  => templates/registration/login.html
 
  <h1>Login Page</h1>

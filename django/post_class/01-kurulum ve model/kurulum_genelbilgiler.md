@@ -1,3 +1,4 @@
+```
 1- python --version =>python versinını kontrol edelim
 2- python -m venv env => environment alanını oluştur, sondaki env ismi best practice farklı isimde kullanılabilir
 3- .\env\Scripts\activate (env yi aktive etmek için Scripts in içine gidip activate yap)
@@ -12,7 +13,7 @@ ve 3.adımı tekrar uygula!!!
 7- terminalde yazan http://127.0.0.1:8000/ linkine tıkla, tarayıcıda roketi gör :)
 8- python manage.py startapp student ( ilk app i oluştur, student= senin app adın) 
 9- oluşturulan app adı seeting dosyasında INSTALLED_APPS içerisine eklenir.
-
+```
 views.py içinde; 
      from django.shortcuts import render
      from django.http import HttpResponse  buraya kullanılanacaklar import ediliyor

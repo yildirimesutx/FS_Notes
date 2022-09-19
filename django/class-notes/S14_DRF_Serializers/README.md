@@ -1,13 +1,13 @@
 ### SERIALIZERS 
 
-
+```
 pip install djangorestframework
 
 INSTALLED_APPS = [
     ...
     'rest_framework',
 ]
-
+```
 
 
 İlgili app içinde serializers.py dosyası oluşturun.
@@ -18,7 +18,7 @@ Bu yöntemde CRUD işlemleri için ayrıca class içinde func ları tanımlamak 
 
 
 tanımlamada models.py daki attributlerin kullanılması gerekiyor
-
+```
 serializers.py 
 
 from rest_framework import serializers
@@ -44,18 +44,19 @@ CRUD işlemleri yapılabilmesi için devamına ekliyoruz.
 PUT : tamamının update edilmesi
 PATCH : yalnızca birkaç alanın update edilmesi
 
-
+```
 <hr>
 
 # ModelSerializer
 
+```
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model= Student
         fields = ['id', 'first_name', 'last_name', 'number']
         # fields = '__all__'
         # exclude = ['id'] / ('id',) list veya tuple olarak yazılabilir. tuple daha hızlıdır.
-
+```
 <hr>
 
 # Validation
@@ -68,6 +69,7 @@ serializers.py da ilgili serializer altına validatorların tanımı yapılabili
 
 validate_ sonra ilgili attribut geliyor
 
+```
 def validate_first_name(self, value):
         
         if value.lower() == 'rafe':
@@ -79,7 +81,8 @@ def validate_first_name(self, value):
         if value > 2000:
             raise serializers.ValidationError("Student number can not be greater than 2000!")  
         return value
-
+```
+```
 * Object-level validation  
 
 SerializerMethodField() methodu kullandık, bu method, modelden gelen tabloya serializers işlemi uygularken ek olarak veri eklemek için kullanılıyor
@@ -91,7 +94,9 @@ class içinde tanımladık =>
 
  def get_days_since_joined(self, obj):
         return (now() - obj.register_date).days
+```
 
+```
 # Relational fields
 
 *Nested Serializer
@@ -121,6 +126,6 @@ class PathSerializer(serializers.ModelSerializer):
     class Meta:
         model = Path
         fields = '__all__'
-
+```
 
 

@@ -4,7 +4,7 @@
 view.py 
 
 
-
+```
 @api_view(['GET'])
 def studentList(request):
     student = Student.objects.all()
@@ -51,4 +51,4 @@ def studentDel(request, pk):
    student.delete()
 
    return Response("Item Deeleted")        
-
+```

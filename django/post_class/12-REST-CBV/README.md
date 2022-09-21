@@ -1,8 +1,8 @@
 #! Class Based Views
 
-
 views.py
 
+```
 from django.http.response import HttpResponse
 from django.shortcuts import render
 import rest_framework
@@ -60,17 +60,21 @@ class TodoDetail(APIView):
 
         return Response(data, status=status.HTTP_204_NO_CONTENT)
 
+```
 urls.py 
 
+```
 urlpatterns = [
     path('', home),
     path('list', TodoList.as_view()),
     path('detail/<int:id>', TodoDetail.as_view()),
 ]
 
+```
 
 * yukarıda TodoDetail içerinde tekrarlayan satırlar iiçin bir method tanımlayabiliyoruz
 
+```
 todo = Todo.objects.get(id=id) bu satır tün CRUD işlemlerinde kullanılıyor.  get_object_or_404 import edilmesi gerekiyor
  
 from django.shortcuts import  get_object_or_404
@@ -81,6 +85,9 @@ from django.shortcuts import  get_object_or_404
 
 todo = self.get_obj(id)
 
+
+```
+
 # Genericapi View 
 
 Attributes :
@@ -89,7 +96,8 @@ Attributes :
     - serializer_class
     - lookup_field
     - lookup_url_kwarg
-
+    
+```
 from rest_framework import mixins
 from rest_framework.generics import GenericAPIView
 
@@ -105,10 +113,14 @@ class TodoList(mixins.ListModelMixin, mixins.CreateModelMixin,GenericAPIView):
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs) 
 
+```
 
 
 
 ## Concrete Views 
+
+
+```
 from rest_framework.generics import GenericAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 class TodoListCreate(ListCreateAPIView) :
@@ -129,6 +141,8 @@ class TodoGetUpdateDelete(RetrieveUpdateDestroyAPIView):
     serializer_class = TodoSerializer
     lookup_field ="id"  
 
+
+```
 
 ## ViewSets       
 
@@ -167,6 +181,9 @@ urlpatterns = [
 urlpatterns += router.urls
 
 
+```
+
+```
 #  action kullanımı
 
 
@@ -194,4 +211,8 @@ class TodoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model= Todo
+        
+
+```        
+        
         fields = ("id", "task","description","priority", "done", "todo_detail" ,  "updateDate", "createdDate" )  

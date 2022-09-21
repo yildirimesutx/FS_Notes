@@ -90,13 +90,15 @@ todo = self.get_obj(id)
 
 # Genericapi View 
 
+```
 Attributes :
 
     - queryset
     - serializer_class
     - lookup_field
     - lookup_url_kwarg
-    
+
+```    
 ```
 from rest_framework import mixins
 from rest_framework.generics import GenericAPIView

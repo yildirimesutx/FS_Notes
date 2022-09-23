@@ -7,7 +7,7 @@
 
 ---permission---
 permissonlar sabit olup auth yöntemi değişmektedir.
-
+```
 AllowAny : kısıtlama yok
 IsAuthenticated : user kayıtlı ise işlemleri yapıyor
 IsAdminUser : admin user için yetki veriyor
@@ -18,7 +18,7 @@ DjangoModelPermissions :admin panelde verilen user ve grup yetkilerine göre kı
 DjangoModelPermissionsOrAnonReadOnly : auth ise djangomodelpermissons uygula değilse readi uygula
 DjangoObjectPermissions
 Custom permissions
-
+```
 * BasicAuthentication
 
 güvenli olmayan ve tercih edilmeyn yöntem
@@ -98,7 +98,7 @@ serializers.py oluşturduk
 djangonun User modeini kullanıyoruz
 
 DJANGONUN DEFAULT USERS MODELİNDE EMAİL ZORUNLU DEĞİL VE UNİQ DEĞİLDİ, USERS MODELDE TEKRAR TANIMLAYACAĞIZ
-
+```
 from asyncore import write
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
@@ -155,7 +155,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-
+```
 yukarıdaki kod standart register işlemleri içinkullnılıyor
 
 write_only:
@@ -170,7 +170,7 @@ kayıt olduğunda passwordu ekranda yazdırmaması için,
 
 SONRA VIEWS YAZDIK 
 
-
+```
 from django.contrib.auth.models import User
 from .serializers import RegisterSerializer
 from rest_framework.generics import CreateAPIView
@@ -199,7 +199,7 @@ class RegisterView(CreateAPIView):
         headers = self.get_success_headers(serializer.data)
         return Response(data, status=status.HTTP_201_CREATED, headers=headers)
 
-
+```
 *** LOGIN *****
 
 from django.urls import path
@@ -215,7 +215,7 @@ urlpatterns = [
 **** LOGOUT *****
 
 logout işleminde sistemde tanımlı token siliniyor tekrar login olunca yeni token veriyor, güvenlik yöntemi
-
+```
 @api_view(['POST'])    
 def logout(request):
     if request.method == 'POST':
@@ -225,9 +225,9 @@ def logout(request):
         }
         return Response(data)
 
-
+```
 *** CUSTEM PERMİSSONS ***
-
+```
 permissions.py tanımlıyoruz ulaşılması gereken app içinde
 djangonun permissondan class ın inherit ediyoruz
 
@@ -243,3 +243,4 @@ class IsAdminOrReadOnly(permissions.IsAdminUser):
             return True
         else:
             return bool(request.user and request.user.is_staff)
+```
